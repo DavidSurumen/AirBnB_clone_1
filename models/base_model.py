@@ -9,7 +9,6 @@ from models import storage
 
 
 class BaseModel:
-
     """Class for base model of object hierarchy."""
 
     def __init__(self, *args, **kwargs):
@@ -20,34 +19,34 @@ class BaseModel:
         """
 
         if kwargs is not None and kwargs != {}:
-            for key in kwargs:
-                if key == "created_at":
-                    self.__dict__["created_at"] = datetime.strptime(
-                        kwargs["created_at"], "%Y-%m-%dT%H:%M:%S.%f")
-                elif key == "updated_at":
-                    self.__dict__["updated_at"] = datetime.strptime(
-                        kwargs["updated_at"], "%Y-%m-%dT%H:%M:%S.%f")
+            for key, value in kwargs.items():
+                if key == "created_at" or "updated_at":
+                    setattr(self,
+                            key,
+                            datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f'))
+                elif key == '__class__':
+                    continue
                 else:
-                    self.__dict__[key] = kwargs[key]
+                    setattr(self, key, value)
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            storage.new(self)
+            models.storage.new(self)
 
     def __str__(self):
         """Returns a human-readable string representation
         of an instance."""
 
         return "[{}] ({}) {}".\
-            format(type(self).__name__, self.id, self.__dict__)
+            format(self.__class__.__name__, self.id, self.__dict__)
 
     def save(self):
         """Updates the updated_at attribute
         with the current datetime."""
 
         self.updated_at = datetime.now()
-        storage.save()
+        models.storage.save()
 
     def to_dict(self):
         """Returns a dictionary representation of an instance."""
