@@ -40,15 +40,20 @@ class BaseModel():
 
     def __str__(self):
         """Method that returns a string representation of an instance"""
+
         return ("[{}] ({}) {}".format(self.__class__.__name__,
                                       self.id,
                                       self.__dict__))
 
     def save(self):
+        """updates the attribute 'updated_at' with current datetime"""
+
         self.updated_at = datetime.now()
         models.storage.save()
 
     def to_dict(self):
+        """serializes the instance of the class 'BaseModel'"""
+
         dict_ = copy.deepcopy(self.__dict__)
         dict_['updated_at'] = dict_['updated_at'].isoformat()
         dict_['created_at'] = dict_['created_at'].isoformat()
