@@ -19,5 +19,5 @@
 }
 
 .filters button:hover {
-	background: rgba(255, 90, 95, .9);
+	opacity: 0.9;
 }
