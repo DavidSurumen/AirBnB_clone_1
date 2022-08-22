@@ -1,4 +1,7 @@
-/* Rules for Places section */
+/* 
+ * === Rules for Places section ===
+ */
+
 .places {
 	display: flex;
 	flex-wrap: wrap;
@@ -16,10 +19,11 @@
 
 .places article {
 	width: 390px;
-/*	padding: 20px;
-*/	margin: 20px;
+	padding: 20px;
+	margin: 20px;
 	border: #FF5A5F 1px solid;
 	border-radius: 4px;
+	position: relative;
 }
 
 .places article h2 {
